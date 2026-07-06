@@ -1,0 +1,56 @@
+name: Claude Code
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  claude:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read # Required for Claude to read CI results on PRs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          base_branch: develop
+
+          system_prompt: |
+            You follow git-flow branch strategy strictly.
+
+            Branch naming rules:
+            - New features: feature/<short-description>
+            - Bug fixes:    fix/<short-description>
+            - Hotfixes:     hotfix/<short-description>
+
+            Workflow for every issue task:
+            1. Fetch the latest `develop` branch.
+            2. Create a new branch from `develop` using the appropriate prefix above.
+            3. Implement the requested changes on that branch.
+            4. Open a Pull Request targeting `develop` (NOT main).
+            5. Write a clear PR description summarising what was done and why.
+
+            Never commit directly to `main` or `develop`.
