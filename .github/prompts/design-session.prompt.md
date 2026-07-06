@@ -1,5 +1,4 @@
 ---
-mode: agent
 agent: planner
 description: 機能設計の壁打ちを開始する(planner エージェントで実行)
 ---

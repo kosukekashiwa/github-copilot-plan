@@ -3,7 +3,10 @@ name: implementer
 description: Issue の受け入れ条件を満たす実装を行い、lint / typecheck / test を通して完了させる
 tools: ["search", "read", "edit", "execute"]
 handoffs:
-  - reviewer
+  - label: Proceed to self-review
+    agent: reviewer
+    prompt: 直前の実装の変更差分をレビューしてください。対応 Issue の受け入れ条件との照合も行うこと。
+    send: false
 ---
 
 # Implementer(実装エージェント)

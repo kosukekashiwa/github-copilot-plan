@@ -1,5 +1,4 @@
 ---
-mode: agent
 agent: task-splitter
 description: 設計ドキュメントをタスク分解する(task-splitter エージェントで実行)
 ---

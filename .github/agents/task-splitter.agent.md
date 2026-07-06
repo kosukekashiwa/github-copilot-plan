@@ -3,7 +3,10 @@ name: task-splitter
 description: 承認済み設計ドキュメントを、Copilot coding agent に委任可能な粒度の Issue 群に分解する
 tools: ["search", "read"]
 handoffs:
-  - implementer
+  - label: Proceed to implementation
+    agent: implementer
+    prompt: 分解したタスクのうち、最初のタスク(依存のないもの)から実装を開始してください。
+    send: false
 ---
 
 # Task Splitter(タスク分解エージェント)
