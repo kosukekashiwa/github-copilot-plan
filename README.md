@@ -10,7 +10,8 @@
 
 - `.github/copilot-instructions.md` — Chat / coding agent / code review すべてが読む共通指示。リポジトリ全体に適用されるカスタム指示で、`.github` ディレクトリ直下に置きます。ここに実際のビルド・テストコマンドを正確に書くことが coding agent の成功率を最も左右します
 - `.github/instructions/*.instructions.md` — YAML frontmatter の `applyTo` で対象パスを指定でき、コードベースの部分ごとに異なる指示を与えられます。web / React Native / レビュー専用の 3 ファイルを用意。レビュー専用ファイルは `excludeAgent` キーワードで coding agent から隠し、code review だけに読ませる構成にしています
-- `.github/prompts/` — 壁打ち用 `/design-session` と分解用 `/task-breakdown` のプロンプトファイル(VS Code の Copilot Chat でスラッシュコマンドとして呼び出せます)
+- `.github/agents/` — 壁打ち(`planner`)・タスク分解(`task-splitter`)・実装(`implementer`)・レビュー(`reviewer`)の4エージェント。フェーズごとに編集・実行ツールの権限を絞り、設計中に勝手にコードを書くといった事故を防ぎます
+- `.github/prompts/` — 壁打ち用 `/design-session` と分解用 `/task-breakdown` のプロンプトファイル(VS Code の Copilot Chat でスラッシュコマンドとして呼び出せます。それぞれ対応するエージェントを自動で使います)
 - Issue テンプレート 2 種(設計壁打ち用/Copilot 委任前提の実装タスク用)、PR テンプレート
 - `.github/workflows/copilot-setup-steps.yml` — coding agent が作業前に依存をインストールするための必須ワークフロー
 - `docs/design/TEMPLATE.md` と運用ガイド `docs/AI-WORKFLOW.md`
