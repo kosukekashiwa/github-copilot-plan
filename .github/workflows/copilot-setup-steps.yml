@@ -1,0 +1,32 @@
+# Copilot coding agent がタスク開始前に実行する環境セットアップ。
+# ファイル名・job 名は「copilot-setup-steps」固定(変更不可)。
+# これがないと coding agent は依存未インストールの状態で作業を始め、
+# lint / test が実行できず品質が大きく落ちる。
+name: "Copilot Setup Steps"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22 # プロジェクトの .nvmrc に合わせる
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
