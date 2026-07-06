@@ -61,6 +61,25 @@ GitHub Copilot Business を活用した「設計壁打ち → タスク分解 �
 
 ---
 
+## エージェントの使い分け
+
+`.github/agents/` の 4 エージェントは「設計 → 分解 → 実装 → レビュー」のフェーズに対応し、
+フェーズごとにツール権限を絞ることで事故(設計中に勝手にコードを書く等)を防ぎます。
+
+| エージェント | 役割 | 編集 | 実行 | 次へのハンドオフ |
+| ------------ | ---- | :--: | :--: | ---------------- |
+| planner | 設計壁打ち | ✕ | ✕ | task-splitter |
+| task-splitter | タスク分解 | ✕ | ✕ | implementer |
+| implementer | 実装 | ◯ | ◯ | reviewer |
+| reviewer | ローカルレビュー | ✕ | ◯ | — |
+
+- 呼び出し: VS Code はチャットのエージェントピッカー、CLI は `/agent` で選択。
+  `/design-session` `/task-breakdown` は対応エージェントを自動で使う
+- reviewer は「PR に出す前のセルフレビュー」用。PR 上の自動レビュー(Copilot code review)とは別物で、
+  観点は `code-review.instructions.md` と揃えてある
+- tools のツール名は環境(VS Code / CLI / Visual Studio)で異なることがあるため、
+  動かない場合はチャットのツール一覧を見て frontmatter を調整する
+
 ## 運用のコツ
 
 - **指示ファイルは育てる**: レビューで同じ指摘が繰り返されたら `code-review.instructions.md` に追加。Copilot の実装が規約を外したら `copilot-instructions.md` に追記
@@ -77,9 +96,14 @@ GitHub Copilot Business を活用した「設計壁打ち → タスク分解 �
 │   ├── react-web.instructions.md      # apps/web にのみ適用
 │   ├── react-native.instructions.md   # apps/mobile にのみ適用
 │   └── code-review.instructions.md    # code review 専用(coding agent からは除外)
+├── agents/
+│   ├── planner.agent.md               # 設計壁打ち(編集ツールなし=コードを書けない)
+│   ├── task-splitter.agent.md         # タスク分解(編集ツールなし)
+│   ├── implementer.agent.md           # 実装(フルツール)
+│   └── reviewer.agent.md              # ローカルレビュー(読み取り+実行のみ)
 ├── prompts/
-│   ├── design-session.prompt.md       # /design-session で壁打ち開始
-│   └── task-breakdown.prompt.md       # /task-breakdown でタスク分解
+│   ├── design-session.prompt.md       # /design-session → planner で壁打ち開始
+│   └── task-breakdown.prompt.md       # /task-breakdown → task-splitter で分解
 ├── ISSUE_TEMPLATE/
 │   ├── feature-design.md              # 設計壁打ち用
 │   └── copilot-task.md                # 実装タスク用(Copilot 委任前提の項目構成)
