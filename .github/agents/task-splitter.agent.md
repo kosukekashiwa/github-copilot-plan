@@ -2,8 +2,12 @@
 name: task-splitter
 description: 承認済み設計ドキュメントを、Copilot coding agent に委任可能な粒度の Issue 群に分解する
 tools: ["search", "read"]
+# model: 設計ドキュメントという確定済みの入力を機械的に分解する工程のため、
+# 軽量モデルで十分な精度が出せます。最もコストを抑えられるエージェントです。
+# モデル名は環境のモデルピッカーで実在する表記に置き換えてください。
+model: GPT-5 mini (copilot)
 handoffs:
-  - label: Proceed to implementation
+  - label: "Step3: 実装へ進む"
     agent: implementer
     prompt: 分解したタスクのうち、最初のタスク(依存のないもの)から実装を開始してください。
     send: false
