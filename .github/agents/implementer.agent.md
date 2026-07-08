@@ -2,8 +2,13 @@
 name: implementer
 description: Issue の受け入れ条件を満たす実装を行い、lint / typecheck / test を通して完了させる
 tools: ["search", "read", "edit", "execute"]
+# model: 実装の正確性がコスト以上に重要な工程のため、フラッグシップ級を維持します。
+# ここを軽量モデルに落とすと、手戻り(再実行・追加コミット)が増えてかえって消費が増えがちです。
+# タスクの粒度が小さいほど(task-splitter の分解が効いているほど)、この工程自体の消費は抑えられます。
+# モデル名は環境のモデルピッカーで実在する表記に置き換えてください。
+model: Claude Sonnet 4.6 (copilot)
 handoffs:
-  - label: Proceed to self-review
+  - label: "Step4: セルフレビューへ進む"
     agent: reviewer
     prompt: 直前の実装の変更差分をレビューしてください。対応 Issue の受け入れ条件との照合も行うこと。
     send: false

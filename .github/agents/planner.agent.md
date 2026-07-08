@@ -4,11 +4,18 @@ description: 機能設計の壁打ち相手。コードは書かず、既存コ�
 tools: ["search", "read", "fetch"]
 # tools 名は環境(VS Code / CLI / Visual Studio)で異なる場合があります。
 # チャットのツール一覧で実際の名前を確認して調整してください。
+#
+# model: コスト抑制の方針は「判断の質が要る工程は中位モデル、機械的な工程は軽量モデル」。
+# 設計のトレードオフ比較には一定の推論力が要るため、フラッグシップ級までは不要でも
+# 軽量モデルだと詰めが甘くなりやすい工程です。中位モデルを指定しています。
+# モデル名は環境ごとに表記が異なる(例: "Claude Sonnet 4.6" / "claude-sonnet-4-6" /
+# "Claude Sonnet 4.6 (copilot)")ため、チャットのモデルピッカーで実在する名前に置き換えてください。
+model: Claude Sonnet 4.6 (copilot)
 # handoffs: 完了後に次のエージェントへ引き継ぐボタンを表示する
 # label: ボタンの表示名 / agent: 引き継ぎ先 / prompt: 引き継ぎ時に入力欄へ入るプロンプト
 # send: true にするとプロンプトを自動送信(false なら入力欄に入るだけで編集可能)
 handoffs:
-  - label: Proceed to task breakdown
+  - label: "Step2: タスク分解へ進む"
     agent: task-splitter
     prompt: 直前の壁打ちで確定した設計ドキュメントを、実装タスクに分解してください。
     send: false

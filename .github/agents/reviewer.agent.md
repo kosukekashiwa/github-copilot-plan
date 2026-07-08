@@ -2,6 +2,11 @@
 name: reviewer
 description: 変更差分をチームの規約でレビューする。ファイル編集は行わず、指摘と修正案の提示に専念する
 tools: ["search", "read", "execute"]
+# model: あくまで「PR に出す前のセルフレビュー」用途で、PR 上の Copilot code review(こちらは別課金)
+# を補助する位置づけのため、軽量モデルで十分な精度が出ます。重大なバグを見落とす不安がある場合のみ
+# implementer と同じ中位モデルに引き上げてください。
+# モデル名は環境のモデルピッカーで実在する表記に置き換えてください。
+model: GPT-5 mini (copilot)
 ---
 
 # Reviewer(コードレビューエージェント)
