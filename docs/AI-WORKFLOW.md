@@ -1,6 +1,7 @@
 # AI 協働開発ワークフロー運用ガイド
 
 GitHub Copilot Business を活用した「設計壁打ち → タスク分解 → 実装 → コードレビュー → 指摘修正」の運用手順。
+なお、設計判断を伴わない軽微な修整は、この工程を経ずに直接対応できる(後述「軽微な修整」を参照)。
 
 ## 0. 初期設定(1 回だけ)
 
@@ -20,6 +21,20 @@ GitHub Copilot Business を活用した「設計壁打ち → タスク分解 �
 4. CI(lint / typecheck / test)が PR で走ることを確認
 
 ---
+
+## 軽微な修整(設計・タスク分解が不要な場合)
+
+typo・文言修正・影響範囲の小さいバグ修正など、設計判断を伴わない軽微な修整は、
+1〜5 の全工程を経由せず `quick-fix` エージェントで直接対応する。
+
+1. VS Code の Copilot Chat(agent モード)で `/quick-fix` を実行し、直したい内容を伝える
+2. quick-fix エージェントが直接修正 → lint/typecheck/test を実行して報告する
+3. 対応範囲(`quick-fix.agent.md` 参照)を超えると quick-fix が判断した場合、
+   その場で `/design-session` からの通常フローへの切り替えを提案される
+4. 必要に応じて reviewer にセルフレビューを依頼してから PR を作成する
+
+判断基準: 仕様判断や複数レイヤー(`packages/shared` / `apps/web` / `apps/mobile`)にまたがる
+変更が必要になった時点で、通常の「設計壁打ち → タスク分解」フローに切り替える。
 
 ## 1. 機能設計の壁打ち
 
@@ -63,18 +78,23 @@ GitHub Copilot Business を活用した「設計壁打ち → タスク分解 �
 
 ## エージェントの使い分け
 
-`.github/agents/` の 4 エージェントは「設計 → 分解 → 実装 → レビュー」のフェーズに対応し、
-フェーズごとにツール権限を絞ることで事故(設計中に勝手にコードを書く等)を防ぎます。
+`.github/agents/` の 5 エージェントは「設計 → 分解 → 実装 → レビュー」のフェーズ、および
+それらを飛ばす「軽微な修整」のショートカットに対応し、フェーズごとにツール権限を絞ることで
+事故(設計中に勝手にコードを書く等)を防ぎます。
 
 | エージェント | 役割 | 編集 | 実行 | 次へのハンドオフ |
 | ------------ | ---- | :--: | :--: | ---------------- |
 | planner | 設計壁打ち | ✕ | ✕ | task-splitter |
 | task-splitter | タスク分解 | ✕ | ✕ | implementer |
-| implementer | 実装 | ◯ | ◯ | reviewer |
+| implementer | 実装(Issue ベース) | ◯ | ◯ | reviewer |
+| quick-fix | 軽微な修整の直接実装(設計・分解なし) | ◯ | ◯ | reviewer |
 | reviewer | ローカルレビュー | ✕ | ◯ | — |
 
 - 呼び出し: VS Code はチャットのエージェントピッカー、CLI は `/agent` で選択。
-  `/design-session` `/task-breakdown` は対応エージェントを自動で使う
+  `/design-session` `/task-breakdown` `/quick-fix` は対応エージェントを自動で使う
+- implementer と quick-fix はどちらも実装用だが、粒度で使い分ける:
+  Issue の受け入れ条件に沿って実装するなら implementer、
+  Issue 起票すら不要な typo・小さなバグ修正なら quick-fix
 - reviewer は「PR に出す前のセルフレビュー」用。PR 上の自動レビュー(Copilot code review)とは別物で、
   観点は `code-review.instructions.md` と揃えてある
 - tools のツール名は環境(VS Code / CLI / Visual Studio)で異なることがあるため、
@@ -100,10 +120,12 @@ GitHub Copilot Business を活用した「設計壁打ち → タスク分解 �
 │   ├── planner.agent.md               # 設計壁打ち(編集ツールなし=コードを書けない)
 │   ├── task-splitter.agent.md         # タスク分解(編集ツールなし)
 │   ├── implementer.agent.md           # 実装(フルツール)
+│   ├── quick-fix.agent.md             # 軽微な修整の直接実装(設計・分解なし、フルツール)
 │   └── reviewer.agent.md              # ローカルレビュー(読み取り+実行のみ)
 ├── prompts/
 │   ├── design-session.prompt.md       # /design-session → planner で壁打ち開始
-│   └── task-breakdown.prompt.md       # /task-breakdown → task-splitter で分解
+│   ├── task-breakdown.prompt.md       # /task-breakdown → task-splitter で分解
+│   └── quick-fix.prompt.md            # /quick-fix → quick-fix で軽微な修整を直接実装
 ├── ISSUE_TEMPLATE/
 │   ├── feature-design.md              # 設計壁打ち用
 │   └── copilot-task.md                # 実装タスク用(Copilot 委任前提の項目構成)
