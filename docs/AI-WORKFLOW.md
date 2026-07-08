@@ -86,7 +86,8 @@ GitHub Copilot Business を活用した「設計壁打ち → タスク分解 �
 
 ## 運用のコツ
 
-- **指示ファイルは育てる**: レビューで同じ指摘が繰り返されたら `code-review.instructions.md` に追加。Copilot の実装が規約を外したら `copilot-instructions.md` に追記
+- **指示ファイルは育てる**: レビューで同じ指摘が繰り返されたら `code-review.instructions.md` に追加。Copilot の実装が規約を外したら `copilot-instructions.md` に追記(追記は該当ファイルの末尾に行うとプロンプトキャッシュが効きやすく、入力トークン削減になる。詳細は `copilot-instructions.md` の「トークン削減の運用ルール」を参照)
+- **出力トークンも削減する**: `copilot-instructions.md` の「トークン削減の運用ルール」で、会話的な応答を簡潔にする caveman プロンプトを定義済み。設計ドキュメントや Issue/PR 本文など読みやすさが必要な成果物には適用しない
 - **委任するタスクを選ぶ**: 型定義・CRUD・テスト追加・既存パターンの横展開は委任向き。アーキテクチャ判断やネイティブ絡みは人間が持つ
 - **Issue の受け入れ条件が命**: coding agent の成果物品質は Issue の具体性に比例する
 - **AI Credits に注意**: coding agent / code review はトークン消費に応じた GitHub AI Credits を消費する(2026年6月〜、旧プレミアムリクエストから移行)。詳細は「6. コストを抑える運用」を参照

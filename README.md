@@ -8,7 +8,7 @@
 
 ## 用意したもの(役割の要点)
 
-- `.github/copilot-instructions.md` — Chat / coding agent / code review すべてが読む共通指示。リポジトリ全体に適用されるカスタム指示で、`.github` ディレクトリ直下に置きます。ここに実際のビルド・テストコマンドを正確に書くことが coding agent の成功率を最も左右します
+- `.github/copilot-instructions.md` — Chat / coding agent / code review すべてが読む共通指示。リポジトリ全体に適用されるカスタム指示で、`.github` ディレクトリ直下に置きます。ここに実際のビルド・テストコマンドを正確に書くことが coding agent の成功率を最も左右します。末尾の「トークン削減の運用ルール」に、会話的な応答を簡潔にする caveman プロンプト(出力トークン削減)とプロンプトキャッシュを効かせる追記ルール(入力トークン削減)を定義しています
 - `.github/instructions/*.instructions.md` — YAML frontmatter の `applyTo` で対象パスを指定でき、コードベースの部分ごとに異なる指示を与えられます。web / React Native / レビュー専用の 3 ファイルを用意。レビュー専用ファイルは `excludeAgent` キーワードで coding agent から隠し、code review だけに読ませる構成にしています
 - `.github/agents/` — 壁打ち(`planner`)・タスク分解(`task-splitter`)・実装(`implementer`)・レビュー(`reviewer`)の4エージェント。フェーズごとに編集・実行ツールの権限を絞り、設計中に勝手にコードを書くといった事故を防ぎます
 - `.github/prompts/` — 壁打ち用 `/design-session` と分解用 `/task-breakdown` のプロンプトファイル(VS Code の Copilot Chat でスラッシュコマンドとして呼び出せます。それぞれ対応するエージェントを自動で使います)
