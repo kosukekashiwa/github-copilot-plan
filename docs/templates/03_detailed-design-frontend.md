@@ -65,9 +65,9 @@ API・DBの詳細設計は [03_detailed-design-backend.md](03_detailed-design-ba
 | メールアドレス | email | 必須 | メール形式であること | 有効なメールアドレスを入力してください |
 | | | | | |
 
-- 使用API: <!-- 例: API-001 -->([03_detailed-design-backend.md](03_detailed-design-backend.md) のAPI IDを記載)
-- 状態遷移: <!-- ローディング/成功/エラー/空状態 の表示パターン -->
-- アクセシビリティ: <!-- semantic HTML(Web)、accessibilityLabel(Mobile) -->
+- 使用API: API-001([03_detailed-design-backend.md](03_detailed-design-backend.md) のAPI IDを記載)
+- 状態遷移: <!-- ローディング/成功/エラー/空状態 の表示パターン --> 例: 送信中はボタンをdisabledにしローディングスピナー表示。成功時は登録完了画面へ遷移。失敗時はフォーム上部にエラーメッセージを表示。
+- アクセシビリティ: <!-- semantic HTML(Web)、accessibilityLabel(Mobile) --> 例: Web は `<form>` / `<label>` を使用しキーボード操作のみで送信可能にする。Mobile は各入力欄に `accessibilityLabel` を設定する。
 
 ## 3. フロントエンド共通処理・ユーティリティ設計
 
@@ -86,4 +86,6 @@ APIエラーレスポンスの形式は [03_detailed-design-backend.md](03_detai
 ### 3.3 状態管理設計
 
 <!-- グローバル状態(認証情報等)とローカル状態の切り分け、使用ライブラリ、キャッシュ戦略 -->
+
+例: 認証情報(ログイン状態・トークン)は Zustand のグローバルストアで管理する。フォーム入力値やモーダル開閉状態はコンポーネントのローカル状態(`useState`)で管理する。APIデータのキャッシュ・再取得は TanStack Query に任せ、グローバルストアには持たない。
 

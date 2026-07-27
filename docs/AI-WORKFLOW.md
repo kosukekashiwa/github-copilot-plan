@@ -199,7 +199,7 @@ docs/
 │   └── TEMPLATE.md                    # 機能単位の設計ドキュメント(壁打ち用)テンプレート
 └── templates/                         # プロジェクト全体の正式設計書一式(受託開発の成果物向け)
     ├── 01_requirements-definition.md   # 要件定義書
-    ├── 02_basic-design-common.md       # 基本設計書(外部設計)- FE/BE共通(全体構成図・環境一覧・機能設計概要)
+    ├── 02_basic-design-common.md       # 基本設計書(外部設計)- FE/BE共通(全体構成図・環境一覧)
     ├── 02_basic-design-frontend.md     # 基本設計書(外部設計)- フロントエンド
     ├── 02_basic-design-backend.md      # 基本設計書(外部設計)- バックエンド
     ├── 03_detailed-design-frontend.md  # 詳細設計書(内部設計)- フロントエンド

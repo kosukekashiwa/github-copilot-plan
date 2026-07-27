@@ -26,18 +26,8 @@
 
 | 環境 | 用途 | URL | 備考 |
 | ---- | ---- | --- | ---- |
-| local | 開発者ローカル | | |
-| dev | 開発環境 | | |
-| stg | 検証環境 | | |
-| prod | 本番環境 | | |
-
-## 2. 機能設計(概要)
-
-<!-- FE/BE双方から参照するため、本表はここに一元管理する -->
-
-要件定義書([01_requirements-definition.md](01_requirements-definition.md))の機能要件ごとに、実現方式の概要を記載する。詳細は [03_detailed-design-frontend.md](03_detailed-design-frontend.md) / [03_detailed-design-backend.md](03_detailed-design-backend.md) に譲る。
-
-| 機能ID | 機能名 | 処理概要 | 関連画面 | 関連API |
-| ------ | ------ | -------- | -------- | ------- |
-| F-001 | | | S-001 | API-001 |
+| local | 開発者ローカル | http://localhost:3000 | 各自のPC上で起動 |
+| dev | 開発環境 | https://dev.example.com | 開発中の最新コードを自動デプロイ |
+| stg | 検証環境 | https://stg.example.com | 本番相当データでの受入テスト用 |
+| prod | 本番環境 | https://example.com | エンドユーザー向け |
 
