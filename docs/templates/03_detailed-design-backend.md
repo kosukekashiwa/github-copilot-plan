@@ -25,6 +25,7 @@ src/
 
 | モジュール名 | 責務 | 依存先 |
 | ------------ | ---- | ------ |
+| UserService | 会員登録・認証のビジネスロジック | UserRepository, MailClient |
 | | | |
 
 ## 2. API共通仕様
@@ -105,35 +106,44 @@ src/
 | -------- | ---- |
 | `Authorization` | `Bearer <access_token>` |
 | `Content-Type` | `application/json; charset=utf-8` |
-| `Accept-Language` | 多言語対応時、レスポンスメッセージの言語切り替えに使用(要件定義書「4.4 対応言語」参照) |
+| `Accept-Language` | 多言語対応時、レスポンスメッセージの言語切り替えに使用(要件定義書「3.4 対応言語」参照) |
 
 ### 2.6 レートリミット方針
 
 <!-- 該当する場合のみ。上限値、超過時のレスポンス(429)、ヘッダー(X-RateLimit-*)等 -->
 
+例: 未認証エンドポイントは1IPあたり60リクエスト/分。超過時は `429 Too Many Requests` とヘッダー `X-RateLimit-Remaining` を返す。
+
 ## 3. API詳細仕様
 
 <!-- API IDごとに作成。基本設計書のAPI一覧と対応させる。2章の共通仕様との重複は書かない -->
 
-### API-001: <API名>
+### API-001: 会員登録
 
 | 項目 | 内容 |
 | ---- | ---- |
-| Method | GET |
-| Path | /api/v1/... |
-| 認証 | 要(Bearer Token) |
+| Method | POST |
+| Path | /api/v1/users |
+| 認証 | 不要 |
 
 **Request**
 
 ```json
-{}
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
 ```
 
-**Response(200)**
+**Response(201)**
 
 ```json
 {
-  "data": {}
+  "data": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "email": "user@example.com",
+    "createdAt": "2026-07-27T09:00:00Z"
+  }
 }
 ```
 
@@ -143,7 +153,8 @@ src/
 
 | エラーコード | 発生条件 |
 | ------------- | -------- |
-| `VALIDATION_ERROR` | バリデーションエラー |
+| `VALIDATION_ERROR` | メール形式が不正、パスワードが8文字未満 等 |
+| `CONFLICT` | 指定のメールアドレスが登録済み |
 
 ## 4. データベース物理設計
 
@@ -151,21 +162,26 @@ src/
 
 <!-- テーブルごとに作成 -->
 
-#### テーブル名: `<table_name>`
+#### テーブル名: `users`
 
 | カラム名 | 型 | NULL許容 | デフォルト | 制約 | 説明 |
 | -------- | -- | -------- | ---------- | ---- | ---- |
-| id | | NO | | PK | |
+| id | uuid | NO | gen_random_uuid() | PK | 会員ID |
+| email | varchar(255) | NO | | UNIQUE | ログインに使用するメールアドレス |
+| password_hash | varchar(255) | NO | | | bcryptによるハッシュ値 |
+| created_at | timestamptz | NO | now() | | 登録日時 |
 
 インデックス:
 
 | インデックス名 | 対象カラム | 種別 |
 | --------------- | ---------- | ---- |
-| | | |
+| users_email_idx | email | UNIQUE |
 
 ### 4.2 マイグレーション方針
 
 <!-- マイグレーションツール、命名規則、ロールバック方針 -->
+
+例: `node-pg-migrate` を使用。ファイル名は `<timestamp>_<変更内容>.js`(例: `20260727090000_create_users_table.js`)。本番適用前に必ず down マイグレーションでロールバック可能なことを確認する。
 
 ## 5. 処理シーケンス
 
@@ -197,5 +213,6 @@ src/
 
 | ジョブ名 | 概要 | 実行契機 | リトライ方針 |
 | -------- | ---- | -------- | -------------- |
+| 未確認メール再送 | 会員登録後24時間経過しても未確認のユーザーに確認メールを再送する | 毎日深夜1時に定期実行(cron) | 失敗時は最大3回、5分間隔でリトライ |
 | | | | |
 

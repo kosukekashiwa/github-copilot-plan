@@ -57,12 +57,12 @@ apps/api/         # Node.js / Express
 - Props の型は同ファイル内に `type Props = {...}` で定義
 - ビジネスロジックはカスタムフックに切り出し、コンポーネントは表示に専念させる
 - グローバル状態は必要最小限にとどめ、まずローカル状態・Propsで解決できないか検討する
-- スタイリング方針: <!-- CSS Modules / styled-components / Tailwind 等、採用方式を明記 -->
+- スタイリング方針: <!-- CSS Modules / styled-components / Tailwind 等、採用方式を明記 --> 例: Tailwind CSS を採用し、独自の色・余白はデザイントークンとして `packages/shared` に定義する
 
 ## 4. Mobile(React Native)規約
 
 - プラットフォーム差分は `.ios.tsx` / `.android.tsx` の分割 or `Platform.select` で明示する
-- ナビゲーションは <!-- React Navigation 等 --> の構成方針を明記
+- ナビゲーションは <!-- React Navigation 等 --> の構成方針を明記。例: React Navigation の Native Stack + Bottom Tabs を採用し、画面IDと Route 名を一致させる
 - Web と共通化できるロジック(バリデーション、APIクライアント、型定義)は `packages/shared` に置き、UI 部分のみプラットフォーム別に実装する
 - `accessibilityLabel` を対話可能な要素に必ず付与する
 
