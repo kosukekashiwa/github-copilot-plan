@@ -195,6 +195,20 @@ typo・文言修正・影響範囲の小さいバグ修正など、設計判断�
 └── workflows/
     └── copilot-setup-steps.yml        # coding agent の実行環境セットアップ
 docs/
-└── design/
-    └── TEMPLATE.md                    # 設計ドキュメントのテンプレート
+├── design/
+│   └── TEMPLATE.md                    # 機能単位の設計ドキュメント(壁打ち用)テンプレート
+└── templates/                         # プロジェクト全体の正式設計書一式(受託開発の成果物向け)
+    ├── 01_requirements-definition.md   # 要件定義書
+    ├── 02_basic-design-common.md       # 基本設計書(外部設計)- FE/BE共通(全体構成図・環境一覧・機能設計概要)
+    ├── 02_basic-design-frontend.md     # 基本設計書(外部設計)- フロントエンド
+    ├── 02_basic-design-backend.md      # 基本設計書(外部設計)- バックエンド
+    ├── 03_detailed-design-frontend.md  # 詳細設計書(内部設計)- フロントエンド
+    ├── 03_detailed-design-backend.md   # 詳細設計書(内部設計)- バックエンド
+    ├── 04_coding-standards.md          # コーディング規約
+    ├── 05_test-specification.md        # テスト仕様書
+    └── checklists/                    # フェーズ別レビュー観点チェックリスト
+        ├── requirements-review-checklist.md
+        ├── design-review-checklist.md
+        ├── code-review-checklist.md
+        └── test-review-checklist.md
 ```
