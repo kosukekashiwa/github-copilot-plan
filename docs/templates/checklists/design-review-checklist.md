@@ -1,6 +1,6 @@
 # レビュー観点チェックリスト: 基本設計・詳細設計
 
-対象文書: `02_basic-design-common.md` / `02_basic-design-frontend.md` / `02_basic-design-backend.md` / `03_detailed-design-frontend.md` / `03_detailed-design-backend.md`
+対象文書: `02_system-architecture.md` / `02_frontend-design.md` / `02_backend-design.md` / `03_screen-list.md` / `03_database-design.md`
 
 ## トレーサビリティ
 

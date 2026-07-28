@@ -199,11 +199,12 @@ docs/
 │   └── TEMPLATE.md                    # 機能単位の設計ドキュメント(壁打ち用)テンプレート
 └── templates/                         # プロジェクト全体の正式設計書一式(受託開発の成果物向け)
     ├── 01_requirements-definition.md   # 要件定義書
-    ├── 02_basic-design-common.md       # 基本設計書(外部設計)- FE/BE共通(全体構成図・環境一覧)
-    ├── 02_basic-design-frontend.md     # 基本設計書(外部設計)- フロントエンド
-    ├── 02_basic-design-backend.md      # 基本設計書(外部設計)- バックエンド
-    ├── 03_detailed-design-frontend.md  # 詳細設計書(内部設計)- フロントエンド
-    ├── 03_detailed-design-backend.md   # 詳細設計書(内部設計)- バックエンド
+    ├── 01_use-case-list.md             # 機能一覧・ユースケース一覧
+    ├── 02_system-architecture.md       # 基本設計書(外部設計)- FE/BE共通(全体構成図・環境一覧)
+    ├── 02_frontend-design.md     # 基本設計書(外部設計)- フロントエンド(詳細設計を統合)
+    ├── 02_backend-design.md      # 基本設計書(外部設計)- バックエンド(詳細設計を統合)
+    ├── 03_screen-list.md               # 画面一覧・画面遷移図・画面詳細仕様
+    ├── 03_database-design.md           # データベース設計(論理・物理)
     ├── 04_coding-standards.md          # コーディング規約
     ├── 05_test-specification.md        # テスト仕様書
     └── checklists/                    # フェーズ別レビュー観点チェックリスト

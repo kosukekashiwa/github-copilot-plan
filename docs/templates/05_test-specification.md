@@ -2,7 +2,7 @@
 
 | 項目 | 内容 |
 | ---- | ---- |
-| 関連文書 | 詳細設計書: 03_detailed-design-frontend.md / 03_detailed-design-backend.md |
+| 関連文書 | 基本設計書: 02_frontend-design.md / 02_backend-design.md |
 | 版数 | v0.1 |
 | ステータス | Draft / レビュー中 / 承認済 |
 
