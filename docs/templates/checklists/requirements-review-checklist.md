@@ -1,6 +1,6 @@
 # レビュー観点チェックリスト: 要件定義
 
-対象文書: `01_requirements-definition.md` / `01_functional-requirements.md`
+対象文書: `01_requirements-definition.md` / `01_use-case-list.md`
 
 ## 網羅性
 

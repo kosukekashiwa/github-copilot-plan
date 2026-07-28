@@ -2,7 +2,7 @@
 
 自動レビュー(Copilot code review)の観点は `.github/instructions/code-review.instructions.md` で既に定義済みのため、本チェックリストはそれと重複させず、人間レビュアーが担うべき観点(仕様との整合性・設計判断・UX)を中心に構成する。
 
-対象: 実装PR(詳細設計書 `03_detailed-design-frontend.md` / `03_detailed-design-backend.md` に対応する実装)
+対象: 実装PR(設計書 `02_frontend-design.md` / `02_backend-design.md` に対応する実装)
 
 ## 仕様整合性(人間レビュー必須・自動レビューでは検知困難)
 

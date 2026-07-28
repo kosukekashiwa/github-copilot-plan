@@ -9,7 +9,7 @@
 
 <!-- 対象スタック: Web(React) / Mobile(React Native) / API(Node.js + Express) -->
 
-本書は受託開発における正式な要件定義書テンプレート。顧客レビュー・承認を経て、基本設計書([02_basic-design-common.md](02_basic-design-common.md) / [02_basic-design-frontend.md](02_basic-design-frontend.md) / [02_basic-design-backend.md](02_basic-design-backend.md))のインプットとする。機能一覧・ユースケース一覧は [01_functional-requirements.md](01_functional-requirements.md) にまとめる。
+本書は受託開発における正式な要件定義書テンプレート。顧客レビュー・承認を経て、基本設計書([02_system-architecture.md](02_system-architecture.md) / [02_frontend-design.md](02_frontend-design.md) / [02_backend-design.md](02_backend-design.md))のインプットとする。機能一覧・ユースケース一覧は [01_use-case-list.md](01_use-case-list.md) にまとめる。
 
 ## 1. 目的・背景
 
@@ -123,13 +123,7 @@
 | ストア申請 | 対象ストア(App Store / Google Play)、審査ガイドライン上の留意点(課金・個人情報取得の同意画面等)、プライバシーポリシーURLの要否 |
 | 対応OSバージョン | 例: iOS 16以上、Android 10(APIレベル29)以上 |
 
-## 7. システム構成概要
-
-<!-- 例: Web(React SPA) → API(Node.js/Express) → DB、Mobile(React Native)は同一APIを利用 -->
-
-詳細は基本設計書([02_basic-design-common.md](02_basic-design-common.md) 等)に譲り、ここでは要件定義段階での想定構成を記載する。
-
-## 8. リスクと対応方針
+## 7. リスクと対応方針
 
 | リスク | 影響度 | 発生確率 | 対応方針 |
 | ------ | ------ | -------- | -------- |
